@@ -1,4 +1,8 @@
-![Loopstring Thumbnail](https://github.com/patientduck394/loopstring/blob/main/images/loopstring_thumbnail.png)
+<p align="left">
+  <a href="https://github.com">
+    <img src="https://github.com/user-attachments/assets/6ae71d7c-646c-41a7-9483-5b2365df6eb3" width="225" alt="Loopstring Thumbnail">
+  </a>
+</p>
 
 # Loopstring
 
