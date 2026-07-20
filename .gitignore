@@ -1,0 +1,15 @@
+# Python build and distribution artifacts
+dist/
+build/
+*.egg-info/
+
+# Python caching systems
+__pycache__/
+*.pyc
+
+# Operating System hidden system files
+.DS_Store
+Thumbs.db
+
+# Hidden local Git configurations
+.git/
