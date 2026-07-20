@@ -1,4 +1,6 @@
-# LoopString
+![Loopstring Thumbnail](https://github.com/patientduck394/loopstring/blob/main/images/loopstring_thumbnail.png)
+
+# Loopstring
 
 A lightweight, powerful Python utility for terminal text formatting, custom box-drawing, and terminal UI layouts. 
 
