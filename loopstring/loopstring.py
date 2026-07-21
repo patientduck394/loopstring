@@ -121,7 +121,7 @@ class SYMBOLS:
 
     SCALES = '⚖'
 
-class DIVIDERS:
+class TITLES:
     @staticmethod
     def draw_divider(text, style="box"):
         if style == "box":
@@ -144,7 +144,41 @@ class DIVIDERS:
             return(f"◂ {text} ▸")
         elif style == "science":
             return(f"⚗⚛ {text} ⚛⚗")
+        elif style == "line":
+            return(f"── {text} ──")
         
+class DIVIDERS:
+    @staticmethod
+    def draw_divider(length, style="box"):
+        if style == "stripes":
+            return("▌" * length)
+        elif style == "server":
+            return("╽╿" * length)
+        elif style == "pixel":
+            return("▀▄" * length)
+        elif style == "shade":
+            return(("░▒▓█") + ("█" * length) + ("█▓▒░"))
+        elif style == "angle_bracket":
+            return("❭" * length)
+        elif style == "grass":
+            return("v" * length)
+        elif style == "full_block":
+            return("█" * length)
+        elif style == "dotted_line":
+            return("⁞" * length)
+        elif style == "square_wave":
+            return("⎍" * length)
+        elif style == "light_shade":
+            return("░" * length)
+        elif style == "medium_shade":
+            return("▒" * length)
+        elif style == "dark_shade":
+            return("▓" * length)
+        elif style == "line":
+            return("─" * length)
+        elif style == "cloud":
+            return("C" + ("⁐" * length) + "Ↄ")
+
 class MULTI_INPUT_MATRICES:
     @staticmethod
     def draw_matrix(text1, text2, text3, matrixType="square"):
@@ -226,7 +260,7 @@ class WRITEDOWN:
             elif processed_line.startswith("## "):
                 processed_line = "\033[36m" + "\033[1m" + "▷ " + processed_line[3:]
             elif processed_line.startswith("### "):
-                processed_line = "\033[37m" + "‣ " + processed_line[4:]
+                processed_line = "\033[36m" + "‣ " + processed_line[4:]
             # 3. Parse * Bullet points -> Green Bullet Indent
             elif processed_line.startswith("* "):
                 processed_line = "  " + "\033[32m" + "• " + "\033[37m" + processed_line[2:]
