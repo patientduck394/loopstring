@@ -56,7 +56,6 @@ class BOXES:
         box.append(f"{g['bl']}{g['h'] * (max_width + 2)}{g['br']}")
         return '\n'.join(box)
 
-    # 🚀 NEW SHORTCUTS FOR VERSION 0.0.5 🚀
     @staticmethod
     def rounded(text: str) -> str:
         """Shortcut to draw a rounded box."""
@@ -119,3 +118,168 @@ class SYMBOLS:
     LOOP_SINGLE = '➰︎'      # U+27B0 - Light curly loop curl
     LOOP_DOUBLE = '➿︎'      # U+27BF - Double curly loop hook
     LOOP_REFRESH = '⥁'     # U+2941 - Circular reload sequence
+
+    SCALES = '⚖'
+
+class DIVIDERS:
+    @staticmethod
+    def draw_divider(text, style="box"):
+        if style == "box":
+            return(f"▌[{text}]▐")
+        elif style == "server":
+            return(f"╽ {text} ╿")
+        elif style == "pixel":
+            return(f"▀▄ {text} ▄▀")
+        elif style == "shade":
+            return(f"░▒▓█ {text} █▓▒░")
+        elif style == "angle_bracket":
+            return(f"❬ {text} ❭")
+        elif style == "boxed":
+            return(f"┍[ {text} ]┑")
+        elif style == "bullet":
+            return(f"⁌ {text} ⁍")
+        elif style == "dotted_line":
+            return(f"⁞ {text} ⁞")
+        elif style == "mini_triangle":
+            return(f"◂ {text} ▸")
+        elif style == "science":
+            return(f"⚗⚛ {text} ⚛⚗")
+        
+class MULTI_INPUT_MATRICES:
+    @staticmethod
+    def draw_matrix(text1, text2, text3, matrixType="square"):
+        """
+        Draws matrices with three text parameters.
+        Available in 3 styles:
+        - Square
+        - Rounded
+        - Curly
+        """
+        # Combine inputs to find the maximum string length efficiently
+        texts = [text1, text2, text3]
+        biggestLength = max(len(t) for t in texts)
+        
+        # Dynamically pad each text string to match the longest one
+        padded_texts = [t.ljust(biggestLength) for t in texts]
+        
+        if matrixType == "square":
+            # Brackets now dynamically scale based on the largest input width
+            topBracket    = "⎡ " + padded_texts[0] + " ⎤"
+            middleBracket = "⎢ " + padded_texts[1] + " ⎥"
+            bottomBracket = "⎣ " + padded_texts[2] + " ⎦"
+        elif matrixType == "rounded":
+            topBracket    = "⎧ " + padded_texts[0] + " ⎫"
+            middleBracket = "⎪ " + padded_texts[1] + " ⎪"
+            bottomBracket = "⎩ " + padded_texts[2] + " ⎭"
+        elif matrixType == "curly":
+            topBracket    = "⎧ " + padded_texts[0] + " ⎫"
+            middleBracket = "⎨ " + padded_texts[1] + " ⎬"
+            bottomBracket = "⎩ " + padded_texts[2] + " ⎭"
+            
+        return topBracket + "\n" + middleBracket + "\n" + bottomBracket + "\n"
+
+class MATRICES:
+    @staticmethod
+    def draw_matrix(text, matrixType="square"):
+        """
+        Draws matrices with one text parameter.
+        Available in 3 styles:
+        - Square
+        - Rounded
+        - Curly
+        """
+        textLength = 0
+        textLength = len(text)
+        if matrixType == "square":
+            topBracket = "⎡" + ((" " * textLength) + "  ") + "⎤"
+            middleBracket = "⎢" + (" " + text + " ") + "⎥"
+            bottomBracket = "⎣" + ((" " * textLength) + "  ") + "⎦"
+        elif matrixType == "rounded":
+            topBracket = "⎧" + ((" " * textLength) + "  ") + "⎫"
+            middleBracket = "⎪" + (" " + text + " ") + "⎪"
+            bottomBracket = "⎩" + ((" " * textLength) + "  ") + "⎭"
+        elif matrixType == "curly":
+            topBracket = "⎧" + ((" " * textLength) + "  ") + "⎫"
+            middleBracket = "⎨" + (" " + text + " ") + "⎬"
+            bottomBracket = "⎩" + ((" " * textLength) + "  ") + "⎭"
+        
+        return((topBracket + "\n") + (middleBracket + "\n") + (bottomBracket + "\n"))
+    
+
+class WRITEDOWN:
+    def format_writedown(writedown_text):
+        """
+        Parses standard Writedown (a Markdown modification) syntax string formatting loops and translates
+        them directly into terminal screen Colorama escape styles.
+        """
+        lines = writedown_text.split(r"\n") # Splits text lines accurately
+        
+        
+        
+        for line in lines:
+            processed_line = line.strip()
+            
+            # 1. Parse # Headers -> Bright Cyan Bold
+            if processed_line.startswith("# "):
+                processed_line = "\033[36m" + "\033[1m" + "▶ " + processed_line[2:].upper()
+            # 2. Parse ##  and ### Headers -> Bright White Bold
+            elif processed_line.startswith("## "):
+                processed_line = "\033[36m" + "\033[1m" + "▷ " + processed_line[3:]
+            elif processed_line.startswith("### "):
+                processed_line = "\033[37m" + "‣ " + processed_line[4:]
+            # 3. Parse * Bullet points -> Green Bullet Indent
+            elif processed_line.startswith("* "):
+                processed_line = "  " + "\033[32m" + "• " + "\033[37m" + processed_line[2:]
+            elif processed_line.startswith("- "):
+                processed_line = "  " + "\033[32m" + "- " + "\033[37m" + processed_line[2:]
+            elif processed_line.startswith("> "):
+                processed_line = "  " + "\033[33m" + "‣ " + "\033[37m" + processed_line[2:]
+            elif processed_line.startswith("1. "):
+                processed_line = "  " + "\033[31m" + "1. " + "\033[37m" + processed_line[3:]
+            elif processed_line.startswith("2. "):
+                processed_line = "  " + "\033[31m" + "2. " + "\033[37m" + processed_line[3:]
+            elif processed_line.startswith("3. "):
+                processed_line = "  " + "\033[31m" + "3. " + "\033[37m" + processed_line[3:]
+            elif processed_line.startswith("4. "):
+                processed_line = "  " + "\033[31m" + "4. " + "\033[37m" + processed_line[3:]
+            elif processed_line.startswith("5. "):
+                processed_line = "  " + "\033[31m" + "5. " + "\033[37m" + processed_line[3:]
+            elif processed_line.startswith("6. "):
+                processed_line = "  " + "\033[31m" + "6. " + "\033[37m" + processed_line[3:]
+            elif processed_line.startswith("7. "):
+                processed_line = "  " + "\033[31m" + "7. " + "\033[37m" + processed_line[3:]
+            elif processed_line.startswith("8. "):
+                processed_line = "  " + "\033[31m" + "8. " + "\033[37m" + processed_line[3:]
+            elif processed_line.startswith("9. "):
+                processed_line = "  " + "\033[31m" + "9. " + "\033[37m" + processed_line[3:]
+            elif processed_line.startswith("10. "):
+                processed_line = "  " + "\033[31m" + "10. " + "\033[37m" + processed_line[4:]
+                
+            # 4. Parse Inline **Bold** markers using colorama replacements
+            while "**" in processed_line:
+                processed_line = processed_line.replace("**", "\033[33m" + "\033[1m", 1).replace("**", "\033[0m" + "\033[37m", 1)
+                
+            # 5. Parse Inline *Italic* markers (we can use Underline style for italics in terminal layouts)
+            while "*" in processed_line:
+                processed_line = processed_line.replace("*", "\033[4m", 1).replace("*", "\033[24m", 1)
+                
+            # 6. Parse Inline `Code` markers -> Magenta text style
+            while "`" in processed_line:
+                processed_line = processed_line.replace("`", "\033[35m", 1).replace("`", "\033[37m", 1)
+            
+            while "=Y=" in processed_line:
+                processed_line = processed_line.replace("=Y=", "\033[43m", 1).replace("=Y=", "\033[0m", 1)
+
+            while "=R=" in processed_line:
+                processed_line = processed_line.replace("=R=", "\033[41m", 1).replace("=R=", "\033[0m", 1)
+            
+            while "=G=" in processed_line:
+                processed_line = processed_line.replace("=G=", "\033[42m", 1).replace("=G=", "\033[0m", 1)
+            
+            while "=C=" in processed_line:
+                processed_line = processed_line.replace("=C=", "\033[46m", 1).replace("=C=", "\033[0m", 1)
+            
+            while "=B=" in processed_line:
+                processed_line = processed_line.replace("=B=", "\033[44m", 1).replace("=B=", "\033[0m", 1)
+
+            return("\033[0m" + processed_line + "\033[0m")
